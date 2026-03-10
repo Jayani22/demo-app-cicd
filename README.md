@@ -12,6 +12,7 @@ Whenever code is pushed to the GitHub repository, a new Docker image is built an
 - Docker Hub
 - AWS EC2
 - Docker Compose
+- Nginx (for serving the demo app)
 
 ## CI/CD Workflow
 
@@ -21,7 +22,7 @@ Triggered on every push to the main branch.
 
 Steps:
 1. Checkout the source code
-2. Build a Docker image
+2. Build a Docker image from the Dockerfile
 3. Tag the image using the commit SHA
 4. Push the image to Docker Hub
 
@@ -30,14 +31,11 @@ Steps:
 Triggered after the CI workflow completes.
 
 Steps:
-1. Connect to the EC2 instance via SSH
-2. Update the Docker image tag in docker-compose.yml
-3. Pull the new Docker image
-4. Restart the container using docker-compose
-
-## Architecture
-
-Developer Push → GitHub Actions CI → Docker Hub → GitHub Actions CD → EC2 → Application Redeployed
+1. Connect to the EC2 instance using SSH
+2. Install Docker and Docker Compose if not already installed
+3. Create or update the docker-compose.yml file
+4. Pull the latest Docker image from Docker Hub
+5. Restart the container using Docker Compose
 
 ## Deployment Verification
 
